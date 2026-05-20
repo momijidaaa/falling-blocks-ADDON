@@ -1,26 +1,62 @@
 {
   "format_version": 2,
   "header": {
-    "description": "Random Block Rainfall",
-    "name": "Random Block Rainfall",
-    "uuid": "12345678-1234-1234-1234-123456789012",
-    "version": [1, 0, 0],
-    "min_engine_version": [1, 19, 0]
+    "name": "ブロックがランダムに落ちてくるアドオン",
+    "description": "ランダムなブロックが降ってきます",
+    "uuid": "2d600157-dae2-4445-974a-c0cfdbe11c09",
+    "version": [
+      1,
+      0,
+      0
+    ],
+    "min_engine_version": [
+      1,
+      20,
+      0
+    ]
   },
   "modules": [
     {
-      "description": "Random Block Rainfall",
       "type": "script",
       "language": "javascript",
-      "uuid": "87654321-4321-4321-4321-210987654321",
-      "version": [1, 0, 0],
-      "entry": "scripts/main.js"
+      "uuid": "1ee03c16-0fbc-49e9-bfe4-45854f80a01f",
+      "entry": "scripts/main.js",
+      "version": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "description": "ランダムなブロックが降ってきます",
+      "type": "data",
+      "uuid": "ab3676bd-7312-4b08-878e-827f07e36533",
+      "version": [
+        1,
+        0,
+        0
+      ]
     }
   ],
   "dependencies": [
     {
+      "uuid": "23225169-810b-4eae-b034-892431281e53",
+      "version": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
       "module_name": "@minecraft/server",
-      "version": "1.0.0"
+      "version": "1.15.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "1.1.0"
     }
+  ],
+  "capabilities": [
+    "script_eval"
   ]
 }

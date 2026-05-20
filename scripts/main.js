@@ -166,22 +166,38 @@ const ALL_BLOCKS = [
   "minecraft:tnt"
 ];
 
+// 毎ティック実行される関数
 system.runInterval(() => {
+  // すべてのプレイヤーを取得
   for (const player of world.getAllPlayers()) {
+    // プレイヤーの周囲のランダムな位置にブロックを生成
+    spawnRandomBlock(player);
+  }
+}, 1); // 1ティックごと（約20ms）
+
+/**
+ * プレイヤーの周囲の空からランダムなブロックを生成する
+ * @param {Player} player - 対象のプレイヤー
+ */
+function spawnRandomBlock(player) {
+  try {
     const dimension = player.dimension;
     const playerPos = player.location;
 
+    // プレイヤーの周囲 (X: -64 ~ 64, Z: -64 ~ 64, Y: +64) にランダムに生成
     const randomX = playerPos.x + (Math.random() - 0.5) * 128;
     const randomZ = playerPos.z + (Math.random() - 0.5) * 128;
-    const randomY = playerPos.y + 64;
+    const randomY = playerPos.y + 64; // プレイヤーの上空64ブロック
 
-    const spawnPos = { x: randomX, y: randomY, z: randomZ };
+    const spawnPos = { x: Math.floor(randomX), y: Math.floor(randomY), z: Math.floor(randomZ) };
+
+    // ランダムなブロックを選択
     const randomBlock = ALL_BLOCKS[Math.floor(Math.random() * ALL_BLOCKS.length)];
 
-    try {
-      const entity = dimension.spawnEntity("minecraft:falling_block", spawnPos);
-      entity.getComponent("minecraft:block").block.setType(randomBlock);
-    } catch (error) {
-    }
+    // ブロックを配置
+    dimension.getBlock(spawnPos).setType(randomBlock);
+  } catch (error) {
+    // エラーハンドリング（例：無効な座標）
+    console.warn(`ブロック生成エラー: ${error.message}`);
   }
-}, 1);
+}

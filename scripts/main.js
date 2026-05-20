@@ -177,16 +177,28 @@ function spawnRandomBlock(player) {
     const dimension = player.dimension;
     const playerPos = player.location;
 
-    const randomX = playerPos.x + (Math.random() - 0.5) * 128;
-    const randomZ = playerPos.z + (Math.random() - 0.5) * 128;
-    const randomY = playerPos.y + 64;
+    const randomX = playerPos.x + (Math.random() - 0.5) * 64;
+    const randomZ = playerPos.z + (Math.random() - 0.5) * 64;
+    const randomY = playerPos.y + 35; 
 
     const spawnPos = { x: Math.floor(randomX), y: Math.floor(randomY), z: Math.floor(randomZ) };
     const block = dimension.getBlock(spawnPos);
     
-    if (block) {
+    if (block && block.typeId === "minecraft:air") {
       const randomBlock = ALL_BLOCKS[Math.floor(Math.random() * ALL_BLOCKS.length)];
+      
       block.setType(randomBlock);
+
+      dimension.runCommand(`execute at @a run summon falling_block ${spawnPos.x} ${spawnPos.y} ${spawnPos.z} {Block:{Name:"${randomBlock}"}}`);
+      
+      system.runTimeout(() => {
+        try {
+          const currentBlock = dimension.getBlock(spawnPos);
+          if (currentBlock && currentBlock.typeId === randomBlock) {
+            currentBlock.setType("minecraft:air");
+          }
+        } catch (e) {}
+      }, 1);
     }
   } catch (error) {
     console.warn(`ブロック生成エラー: ${error.message}`);

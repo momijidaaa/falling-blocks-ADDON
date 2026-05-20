@@ -179,7 +179,7 @@ function spawnRandomBlock(player) {
 
     const randomX = playerPos.x + (Math.random() - 0.5) * 64;
     const randomZ = playerPos.z + (Math.random() - 0.5) * 64;
-    const randomY = playerPos.y + 35; 
+    const randomY = playerPos.y + 35;
 
     const spawnPos = { x: Math.floor(randomX), y: Math.floor(randomY), z: Math.floor(randomZ) };
     const block = dimension.getBlock(spawnPos);
@@ -187,18 +187,18 @@ function spawnRandomBlock(player) {
     if (block && block.typeId === "minecraft:air") {
       const randomBlock = ALL_BLOCKS[Math.floor(Math.random() * ALL_BLOCKS.length)];
       
-      block.setType(randomBlock);
+      const fallingEntity = dimension.spawnEntity("minecraft:falling_block", {
+        x: spawnPos.x + 0.5,
+        y: spawnPos.y,
+        z: spawnPos.z + 0.5
+      });
 
-      dimension.runCommand(`execute at @a run summon falling_block ${spawnPos.x} ${spawnPos.y} ${spawnPos.z} {Block:{Name:"${randomBlock}"}}`);
-      
-      system.runTimeout(() => {
-        try {
-          const currentBlock = dimension.getBlock(spawnPos);
-          if (currentBlock && currentBlock.typeId === randomBlock) {
-            currentBlock.setType("minecraft:air");
-          }
-        } catch (e) {}
-      }, 1);
+      if (fallingEntity) {
+        const blockComp = fallingEntity.getComponent("minecraft:falling_block");
+        if (blockComp) {
+          blockComp.blockTypeId = randomBlock;
+        }
+      }
     }
   } catch (error) {
     console.warn(`ブロック生成エラー: ${error.message}`);

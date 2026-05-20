@@ -1,7 +1,7 @@
 {
   "format_version": 2,
   "header": {
-    "description": "ランダムブロック降下アドオン - 空からランダムなブロックが毎ティック降ってくる",
+    "description": "Random Block Rainfall",
     "name": "Random Block Rainfall",
     "uuid": "12345678-1234-1234-1234-123456789012",
     "version": [1, 0, 0],
@@ -9,7 +9,7 @@
   },
   "modules": [
     {
-      "description": "ランダムブロック降下スクリプト",
+      "description": "Random Block Rainfall",
       "type": "script",
       "language": "javascript",
       "uuid": "87654321-4321-4321-4321-210987654321",
@@ -19,8 +19,8 @@
   ],
   "dependencies": [
     {
-      "uuid": "ec01a1f7-637f-4aaf-ab3d-0510880c57d8",
-      "version": [1, 0, 0]
+      "module_name": "@minecraft/server",
+      "version": "1.0.0"
     }
   ]
 }
